@@ -39,9 +39,14 @@ define([
     return declare("DivButtonHelper.widget.DivButtonHelper", [ _WidgetBase ], {
 
         // Parameters configured in the Modeler.
-        mfToExecute: "",
-		progress: "",
+		clickType: "mf",
+		mfToExecute: "",
+		progressType: "",
 		progressMsg: "",
+		urlToAccess: "",
+		urlToAccessAttr: "",
+		newPage: false,
+		newPageAttr: "",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handles: null,
@@ -102,21 +107,24 @@ define([
 
         // Attach events to HTML dom elements
         _setupEvents: function() {
-            logger.debug(this.id + "._setupEvents");
+            logger.debug(this.id + "._setupEventsContext");
+			
+			dojoClass.add(this.domNode.parentNode, "DivButtonHelper");		
 
-            this.connect(this.domNode.parentNode, "click", function(e) {
-                // Only on mobile stop event bubbling!
-                this._stopBubblingEventOnMobile(e);
+			if(this.clickType == "mf" ) { //microflow
+				this.connect(this.domNode.parentNode, "click", function(e) {
+					// Only on mobile stop event bubbling!
+					this._stopBubblingEventOnMobile(e);
 
-                // If a microflow has been set execute the microflow on a click.
-                if (this.mfToExecute !== "") {
-                    if (this.progressType != "none") {
+					// If a microflow has been set execute the microflow on a click.
+					if (this.progressType !== "none") {
 						mx.ui.action(this.mfToExecute, {
 							progress: this.progressType,
 							progressMsg: this.progressMsg,
 							params: {
-								applyto: "none"//,
+								applyto: "none",
 								//actionname: this.mfToExecute,
+								//guids: [ this._contextObj.getGuid() ]
 							},
 							store: {
 								caller: this.mxform
@@ -129,10 +137,11 @@ define([
 							})
 						}, this);
 					} else {
-							mx.ui.action(this.mfToExecute, {
+						mx.ui.action(this.mfToExecute, {
 							params: {
-								applyto: "none"//,
-								//actionname: this.mfToExecute
+								applyto: "none",
+								//actionname: this.mfToExecute,
+								//guids: [ this._contextObj.getGuid() ]
 							},
 							store: {
 								caller: this.mxform
@@ -145,8 +154,24 @@ define([
 							})
 						}, this);
 					}
-                }
-            });
+				});
+			} else { //link		
+				this.connect(this.domNode.parentNode, "click", function(e) {
+					if(this.newPageAttr) {
+						this.newPage = this._contextObj.get(this.newPageAttr);	
+					}
+
+					if(this.urlToAccessAttr) {
+						this.urlToAccess = this._contextObj.get(this.urlToAccessAttr);	
+					}
+					
+					if(this.newPage) {
+						window.open(this.urlToAccess);
+					} else {
+						window.location = this.urlToAccess;
+					}
+				});
+			}
         }
     });
 });
