@@ -42,11 +42,27 @@
             <category>Link</category>
             <description>The link to follow on click.</description>
         </property>
+		<property key="urlToAccessAttr" type="attribute" required="false" >
+			<caption>Link URL attribute</caption>
+			<category>Link</category>
+			<description>Attribute continaing the link to follow on click. Overrides the value above, if used.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
 		<property key="newPage" type="boolean" required="true" defaultValue="false">
             <caption>Link on new page</caption>
             <category>Link</category>
             <description>For a link only, whether to open the link in a new page.</description>
         </property>
+		<property key="newPageAttr" type="attribute" required="false" >
+			<caption>Link on new page attribute</caption>
+			<category>Link</category>
+			<description>For a link only, an attribute to decide whether to open the link in a new page. Overrides the value above, if used.</description>
+			<attributeTypes>
+				<attributeType name="Boolean" />
+			</attributeTypes>
+		</property>
     </properties>
 </widget>
 
