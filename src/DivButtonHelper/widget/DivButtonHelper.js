@@ -44,9 +44,7 @@ define([
 		progressType: "",
 		progressMsg: "",
 		urlToAccess: "",
-		urlToAccessAttr: "",
 		newPage: false,
-		newPageAttr: "",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handles: null,
@@ -156,15 +154,7 @@ define([
 					}
 				});
 			} else { //link		
-				this.connect(this.domNode.parentNode, "click", function(e) {
-					if(this.newPageAttr) {
-						this.newPage = this._contextObj.get(this.newPageAttr);	
-					}
-
-					if(this.urlToAccessAttr) {
-						this.urlToAccess = this._contextObj.get(this.urlToAccessAttr);	
-					}
-					
+				this.connect(this.domNode.parentNode, "click", function(e) {					
 					if(this.newPage) {
 						window.open(this.urlToAccess);
 					} else {
