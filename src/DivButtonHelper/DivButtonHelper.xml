@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="DivButtonHelper.widget.DivButtonHelper" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>DivButtonHelper</name>
+    <description>The description of this widget.</description>
+
+    <icon />
+
+    <properties>
+        <property key="mfToExecute" type="microflow" required="false" defaultValue="">
+            <caption>Microflow</caption>
+            <category>Behavior</category>
+            <description>The microflow to execute on click.</description>
+            <returnType type="Boolean" />
+        </property>
+		<property key="progressType" type="enumeration" defaultValue="none">
+            <caption>Progress Bar</caption>
+            <category>Behavior</category>
+            <description>Show progress bar</description>
+            <enumerationValues>
+                <enumerationValue key="none">None</enumerationValue>
+                <enumerationValue key="nonblocking">Non-blocking</enumerationValue>
+				<enumerationValue key="modal">Blocking</enumerationValue>
+            </enumerationValues>
+        </property>
+		<property key="progressMsg" type="string" required="false" defaultValue="">
+            <caption>Progress message</caption>
+            <category>Behavior</category>
+            <description></description>
+        </property>
+    </properties>
+</widget>
+
