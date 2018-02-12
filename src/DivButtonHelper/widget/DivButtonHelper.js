@@ -116,32 +116,23 @@ define([
                         applyto: "none"
                     }
                 }
+                var args = {
+                    params: params,
+                    origin: this.mxform,
+                    callback: function(obj) {
+                        //Nothing to do...
+                    },
+                    error: dojoLang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
+                    })
+                };
 
                 if (this.progressType !== "none") {
-                    mx.ui.action(this.mfToExecute, {
-                        progress: this.progressType,
-                        progressMsg: this.progressMsg,
-                        params: params,
-                        origin: this.mxform,
-                        callback: function(obj) {
-                            //TODO what to do when all is ok!
-                        },
-                        error: dojoLang.hitch(this, function(error) {
-                            logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
-                        })
-                    }, this);
-                } else {
-                    mx.ui.action(this.mfToExecute, {
-                        params: params,
-                        origin: this.mxform,
-                        callback: function(obj) {
-                            //TODO what to do when all is ok!
-                        },
-                        error: dojoLang.hitch(this, function(error) {
-                            logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
-                        })
-                    }, this);
+                    args.progress = this.progressType;
+                    args.progressMsg = this.progressMsg;
                 }
+
+                mx.ui.action(this.mfToExecute, args, this);
             });
         },
         _setupLinkClick: function() {
