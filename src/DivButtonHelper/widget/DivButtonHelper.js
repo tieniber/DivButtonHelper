@@ -19,20 +19,10 @@
 define([
     "dojo/_base/declare",
     "mxui/widget/_WidgetBase",
-
-    "mxui/dom",
-    "dojo/dom",
-    "dojo/dom-prop",
-    "dojo/dom-geometry",
     "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/dom-construct",
-    "dojo/_base/array",
     "dojo/_base/lang",
-    "dojo/text",
-    "dojo/html",
     "dojo/_base/event"
-], function(declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent) {
+], function(declare, _WidgetBase, dojoClass, dojoLang, dojoEvent) {
     "use strict";
 
     // Declare widget's prototype.
@@ -103,7 +93,7 @@ define([
 
             if (this.clickType === "mf") {
                 this._setupMfClick();
-            } else if (this.clickType === "link") {
+            } else if (this.clickType === "url") {
                 this._setupLinkClick();
             } else if (this.clickType === "page") {
                 this._setupPageClick();
@@ -132,9 +122,7 @@ define([
                         progress: this.progressType,
                         progressMsg: this.progressMsg,
                         params: params,
-                        store: {
-                            caller: this.mxform
-                        },
+                        origin: this.mxform,
                         callback: function(obj) {
                             //TODO what to do when all is ok!
                         },
@@ -145,9 +133,7 @@ define([
                 } else {
                     mx.ui.action(this.mfToExecute, {
                         params: params,
-                        store: {
-                            caller: this.mxform
-                        },
+                        origin: this.mxform,
                         callback: function(obj) {
                             //TODO what to do when all is ok!
                         },
