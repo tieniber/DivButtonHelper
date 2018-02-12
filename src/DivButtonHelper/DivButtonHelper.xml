@@ -16,6 +16,7 @@
             <enumerationValues>
                 <enumerationValue key="mf">Microflow</enumerationValue>
                 <enumerationValue key="url">Link</enumerationValue>
+                <enumerationValue key="page">Page</enumerationValue>
             </enumerationValues>
         </property>
         <property key="mfToExecute" type="microflow" required="false" defaultValue="">
@@ -44,10 +45,25 @@
             <category>Link</category>
             <description>The link to follow on click.</description>
         </property>
-		<property key="newPage" type="boolean" required="true" defaultValue="false">
+		<property key="newPage" type="boolean" defaultValue="false">
             <caption>Link on new page</caption>
             <category>Link</category>
             <description>For a link only, whether to open the link in a new page.</description>
+        </property>
+        <property key="pageToOpen" type="form" required="false">
+	      <caption>Page to open</caption>
+		  <category>Page</category>
+	      <description>The page to open on click.</description>
+	    </property>
+        <property key="openTarget" type="enumeration" defaultValue="content">
+            <caption>Open page in:</caption>
+            <category>Page</category>
+            <description></description>
+            <enumerationValues>
+                <enumerationValue key="content">Content</enumerationValue>
+                <enumerationValue key="popup">Pop-up</enumerationValue>
+				<enumerationValue key="modal">Modal Pop-up</enumerationValue>
+            </enumerationValues>
         </property>
     </properties>
 </widget>

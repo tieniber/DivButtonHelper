@@ -7,7 +7,7 @@
     @version   : 1.0
     @author    : Eric Tieniber
     @date      : Thu, 07 Jan 2016 22:19:25 GMT
-    @copyright : 
+    @copyright :
     @license   : Apache 2
 
     Documentation
@@ -36,28 +36,21 @@ define([
     "use strict";
 
     // Declare widget's prototype.
-    return declare("DivButtonHelper.widget.DivButtonHelper", [ _WidgetBase ], {
+    return declare("DivButtonHelper.widget.DivButtonHelper", [_WidgetBase], {
 
         // Parameters configured in the Modeler.
-		clickType: "mf",
-		mfToExecute: "",
-		progressType: "",
-		progressMsg: "",
-		urlToAccess: "",
-		newPage: false,
+        clickType: "mf",
+        mfToExecute: "",
+        progressType: "",
+        progressMsg: "",
+        urlToAccess: "",
+        urlToAccessAttr: "",
+        newPage: false,
+        newPageAttr: "",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
-        _handles: null,
         _contextObj: null,
         _alertDiv: null,
-
-        // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
-        constructor: function() {
-            // Uncomment the following line to enable debug messages
-            //logger.level(logger.DEBUG);
-            logger.debug(this.id + ".constructor");
-            this._handles = [];
-        },
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
@@ -68,7 +61,6 @@ define([
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
-
             this._contextObj = obj;
 
             callback();
@@ -76,22 +68,22 @@ define([
 
         // mxui.widget._WidgetBase.enable is called when the widget should enable editing. Implement to enable editing if widget is input widget.
         enable: function() {
-          logger.debug(this.id + ".enable");
+            logger.debug(this.id + ".enable");
         },
 
         // mxui.widget._WidgetBase.enable is called when the widget should disable editing. Implement to disable editing if widget is input widget.
         disable: function() {
-          logger.debug(this.id + ".disable");
+            logger.debug(this.id + ".disable");
         },
 
         // mxui.widget._WidgetBase.resize is called when the page's layout is recalculated. Implement to do sizing calculations. Prefer using CSS instead.
         resize: function(box) {
-          logger.debug(this.id + ".resize");
+            logger.debug(this.id + ".resize");
         },
 
         // mxui.widget._WidgetBase.uninitialize is called when the widget is destroyed. Implement to do special tear-down work.
         uninitialize: function() {
-          logger.debug(this.id + ".uninitialize");
+            logger.debug(this.id + ".uninitialize");
             // Clean up listeners, helper objects, etc. There is no need to remove listeners added with this.connect / this.subscribe / this.own.
         },
 
@@ -106,63 +98,91 @@ define([
         // Attach events to HTML dom elements
         _setupEvents: function() {
             logger.debug(this.id + "._setupEventsContext");
-			
-			dojoClass.add(this.domNode.parentNode, "DivButtonHelper");		
 
-			if(this.clickType == "mf" ) { //microflow
-				this.connect(this.domNode.parentNode, "click", function(e) {
-					// Only on mobile stop event bubbling!
-					this._stopBubblingEventOnMobile(e);
+            dojoClass.add(this.domNode.parentNode, "DivButtonHelper");
 
-					// If a microflow has been set execute the microflow on a click.
-					if (this.progressType !== "none") {
-						mx.ui.action(this.mfToExecute, {
-							progress: this.progressType,
-							progressMsg: this.progressMsg,
-							params: {
-								applyto: "none",
-								//actionname: this.mfToExecute,
-								//guids: [ this._contextObj.getGuid() ]
-							},
-							store: {
-								caller: this.mxform
-							},
-							callback: function(obj) {
-								//TODO what to do when all is ok!
-							},
-							error: dojoLang.hitch(this, function(error) {
-								logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
-							})
-						}, this);
-					} else {
-						mx.ui.action(this.mfToExecute, {
-							params: {
-								applyto: "none",
-								//actionname: this.mfToExecute,
-								//guids: [ this._contextObj.getGuid() ]
-							},
-							store: {
-								caller: this.mxform
-							},
-							callback: function(obj) {
-								//TODO what to do when all is ok!
-							},
-							error: dojoLang.hitch(this, function(error) {
-								logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
-							})
-						}, this);
-					}
-				});
-			} else { //link		
-				this.connect(this.domNode.parentNode, "click", function(e) {					
-					if(this.newPage) {
-						window.open(this.urlToAccess);
-					} else {
-						window.location = this.urlToAccess;
-					}
-				});
-			}
-        }
+            if (this.clickType === "mf") {
+                this._setupMfClick();
+            } else if (this.clickType === "link") {
+                this._setupLinkClick();
+            } else if (this.clickType === "page") {
+                this._setupPageClick();
+            }
+        },
+        _setupMfClick: function() {
+            this.connect(this.domNode.parentNode, "click", function(e) {
+                // Only on mobile stop event bubbling!
+                this._stopBubblingEventOnMobile(e);
+
+                // If a microflow has been set execute the microflow on a click.
+                var params;
+                if (this._contextObj) {
+                    params = {
+                        applyto: "selection",
+                        guids: [this._contextObj.getGuid()],
+                    }
+                } else {
+                    params = {
+                        applyto: "none"
+                    }
+                }
+
+                if (this.progressType !== "none") {
+                    mx.ui.action(this.mfToExecute, {
+                        progress: this.progressType,
+                        progressMsg: this.progressMsg,
+                        params: params,
+                        store: {
+                            caller: this.mxform
+                        },
+                        callback: function(obj) {
+                            //TODO what to do when all is ok!
+                        },
+                        error: dojoLang.hitch(this, function(error) {
+                            logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
+                        })
+                    }, this);
+                } else {
+                    mx.ui.action(this.mfToExecute, {
+                        params: params,
+                        store: {
+                            caller: this.mxform
+                        },
+                        callback: function(obj) {
+                            //TODO what to do when all is ok!
+                        },
+                        error: dojoLang.hitch(this, function(error) {
+                            logger.error(this.id + ": An error occurred while executing microflow: " + error.description);
+                        })
+                    }, this);
+                }
+            });
+        },
+        _setupLinkClick: function() {
+            this.connect(this.domNode.parentNode, "click", function(e) {
+                if (this.newPageAttr) {
+                    this.newPage = this._contextObj.get(this.newPageAttr);
+                }
+
+                if (this.urlToAccessAttr) {
+                    this.urlToAccess = this._contextObj.get(this.urlToAccessAttr);
+                }
+
+                if (this.newPage) {
+                    window.open(this.urlToAccess);
+                } else {
+                    window.location = this.urlToAccess;
+                }
+            });
+        },
+        _setupPageClick: function() {
+            this.connect(this.domNode.parentNode, "click", function(e) {
+                mx.ui.openForm(this.pageToOpen, {
+                    location: this.openTarget,
+                    callback: function(form) {}
+                });
+            });
+        },
     });
 });
 
