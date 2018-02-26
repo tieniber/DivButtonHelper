@@ -1,4 +1,4 @@
-# Div Button Helper
+# Clickable Container
 A Mendix widget that can make any container clickable. Place it in a container and set the microflow or URL you want to use.
 
 ## Typical usage scenario

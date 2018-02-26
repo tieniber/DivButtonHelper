@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="DivButtonHelper.widget.DivButtonHelper" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>DivButtonHelper</name>
+<widget id="ClickableContainer.widget.ClickableContainer" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>ClickableContainer</name>
     <description>The description of this widget.</description>
 
     <icon>

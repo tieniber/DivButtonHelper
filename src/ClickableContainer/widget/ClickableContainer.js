@@ -1,9 +1,9 @@
 /*global logger*/
 /*
-    DivButtonHelper
+    ClickableContainer
     ========================
 
-    @file      : DivButtonHelper.js
+    @file      : ClickableContainer.js
     @version   : 1.0
     @author    : Eric Tieniber
     @date      : Thu, 07 Jan 2016 22:19:25 GMT
@@ -26,7 +26,7 @@ define([
     "use strict";
 
     // Declare widget's prototype.
-    return declare("DivButtonHelper.widget.DivButtonHelper", [_WidgetBase], {
+    return declare("ClickableContainer.widget.ClickableContainer", [_WidgetBase], {
 
         // Parameters configured in the Modeler.
         clickType: "mf",
@@ -89,7 +89,7 @@ define([
         _setupEvents: function() {
             logger.debug(this.id + "._setupEventsContext");
 
-            dojoClass.add(this.domNode.parentNode, "DivButtonHelper");
+            dojoClass.add(this.domNode.parentNode, "ClickableContainer");
 
             if (this.clickType === "mf") {
                 this._setupMfClick();
@@ -163,6 +163,6 @@ define([
     });
 });
 
-require(["DivButtonHelper/widget/DivButtonHelper"], function() {
+require(["ClickableContainer/widget/ClickableContainer"], function() {
     "use strict";
 });
