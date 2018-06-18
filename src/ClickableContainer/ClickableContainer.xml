@@ -11,7 +11,7 @@
 		<property key="clickType" type="enumeration" defaultValue="mf">
             <caption>Content Type</caption>
             <category>Behavior</category>
-            <description>Defines whether this widget provides the JQuery library.
+            <description>Defines the type of action on click, provide property values in the corresponding part
             </description>
             <enumerationValues>
                 <enumerationValue key="mf">Microflow</enumerationValue>
