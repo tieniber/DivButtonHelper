@@ -9,12 +9,13 @@
 
     <properties>
 		<property key="clickType" type="enumeration" defaultValue="mf">
-            <caption>Content Type</caption>
+            <caption>Click type</caption>
             <category>Behavior</category>
-            <description>Defines whether this widget provides the JQuery library.
+            <description>Select what to do on-click
             </description>
             <enumerationValues>
                 <enumerationValue key="mf">Microflow</enumerationValue>
+                <enumerationValue key="nf">Nanoflow</enumerationValue>                
                 <enumerationValue key="url">Link</enumerationValue>
                 <enumerationValue key="page">Page</enumerationValue>
             </enumerationValues>
@@ -40,6 +41,12 @@
             <category>Microflow</category>
             <description></description>
         </property>
+        <property key="nfToExecute" type="nanoflow" required="false" defaultValue="">
+            <caption>Nanoflow</caption>
+            <category>Nanoflow</category>
+            <description>The nanoflow to execute on click.</description>
+            <returnType type="Void" />
+        </property>           
 		<property key="urlToAccess" type="string" required="false" defaultValue="">
             <caption>Link URL</caption>
             <category>Link</category>

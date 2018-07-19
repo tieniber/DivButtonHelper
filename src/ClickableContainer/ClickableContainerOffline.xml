@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="ClickableContainer.widget.ClickableContainerContext" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>ClickableContainerContext</name>
+<widget id="ClickableContainer.widget.ClickableContainerOffline" needsEntityContext="true" mobile="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>ClickableContainerOffline</name>
     <description>The description of this widget.</description>
 
     <icon>
@@ -8,45 +8,23 @@
     </icon>
 
     <properties>
-		<property key="clickType" type="enumeration" defaultValue="mf">
+		<property key="clickType" type="enumeration" defaultValue="nf">
             <caption>Click type</caption>
             <category>Behavior</category>
             <description>Select what to do on-click
             </description>
             <enumerationValues>
-                <enumerationValue key="mf">Microflow</enumerationValue>
                 <enumerationValue key="nf">Nanoflow</enumerationValue>
                 <enumerationValue key="url">Link</enumerationValue>
                 <enumerationValue key="page">Page</enumerationValue>
             </enumerationValues>
-        </property>
-        <property key="mfToExecute" type="microflow" required="false" defaultValue="">
-            <caption>Microflow</caption>
-            <category>Microflow</category>
-            <description>The microflow to execute on click.</description>
-            <returnType type="Void" />
-        </property>
-		<property key="progressType" type="enumeration" defaultValue="none">
-            <caption>Progress Bar</caption>
-            <category>Microflow</category>
-            <description>Show progress bar</description>
-            <enumerationValues>
-                <enumerationValue key="none">None</enumerationValue>
-                <enumerationValue key="nonblocking">Non-blocking</enumerationValue>
-				<enumerationValue key="modal">Blocking</enumerationValue>
-            </enumerationValues>
-        </property>
-		<property key="progressMsg" type="string" required="false" defaultValue="">
-            <caption>Progress message</caption>
-            <category>Microflow</category>
-            <description></description>
         </property>
         <property key="nfToExecute" type="nanoflow" required="false" defaultValue="">
             <caption>Nanoflow</caption>
             <category>Nanoflow</category>
             <description>The nanoflow to execute on click.</description>
             <returnType type="Void" />
-        </property>        
+        </property>
 		<property key="urlToAccess" type="string" required="false" defaultValue="">
             <caption>Link URL</caption>
             <category>Link</category>

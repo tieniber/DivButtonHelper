@@ -4,6 +4,7 @@
         <widgetFiles>
             <widgetFile path="ClickableContainer/ClickableContainer.xml" />
 			<widgetFile path="ClickableContainer/ClickableContainerContext.xml" />
+			<widgetFile path="ClickableContainer/ClickableContainerOffline.xml" />
         </widgetFiles>
         <files>
             <file path="ClickableContainer/widget/" />

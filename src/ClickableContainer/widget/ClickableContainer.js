@@ -31,6 +31,7 @@ define([
         // Parameters configured in the Modeler.
         clickType: "mf",
         mfToExecute: "",
+        nfToExecute: "",
         progressType: "",
         progressMsg: "",
         urlToAccess: "",
@@ -97,6 +98,8 @@ define([
                 this._setupLinkClick();
             } else if (this.clickType === "page") {
                 this._setupPageClick();
+            } else if (this.clickType === "nf") {
+                this._setupNfClick();
             }
         },
         _setupMfClick: function() {
@@ -135,6 +138,24 @@ define([
                 mx.ui.action(this.mfToExecute, args, this);
             });
         },
+        _setupNfClick: function() {
+            this.connect(this.domNode.parentNode, "click", function(e) {
+                // Only on mobile stop event bubbling!
+                this._stopBubblingEventOnMobile(e);
+
+                // If a microflow has been set execute the microflow on a click.
+                mx.data.callNanoflow({
+                    nanoflow: this.nfToExecute,
+                    origin: this.mxform,
+                    context: this.mxcontext,
+                    callback: function(result) {
+                    },
+                    error: function(error) {
+                        alert(error.message);
+                    }
+                });
+            });
+        },        
         _setupLinkClick: function() {
             this.connect(this.domNode.parentNode, "click", function(e) {
                 if (this.newPageAttr) {
