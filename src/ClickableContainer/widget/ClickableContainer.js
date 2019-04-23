@@ -175,10 +175,14 @@ define([
         },
         _setupPageClick: function() {
             this.connect(this.domNode.parentNode, "click", function(e) {
-                mx.ui.openForm(this.pageToOpen, {
+                var params = {
                     location: this.openTarget,
                     callback: function(form) {}
-                });
+                }
+                if(this._contextObj) {
+                    params.context = this.mxcontext
+                }
+                mx.ui.openForm(this.pageToOpen, params);
             });
         },
     });
